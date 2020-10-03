@@ -1,21 +1,27 @@
-import aiml
-import sys
-import traceback
+# Importing important libraries
 
-from src import google_tts
-from src import google_stt
-from src import microphone
-from src import commonsense
-from src import brain
-from excp.exception import NotUnderstoodException
+import aiml # AIML stands for Artificial Intelligence Markup Language. 
+import sys # To access command line arguments in python.
+import traceback # An exception handler to down the call chain at the point where the exception was raised.
+import src # To structure your program files in a better accessible way.
 
+from src import google_tts # It uses Google's Text to Speech engine to convert passed text to a wav(audio) file.
+from src import google_stt # It uses Google's Speech to Text engine to convert passed flac(audio) to text.
+from src import microphone # It uses PyAudio to record on terminal.
+from src import commonsense # It will play pre-recorded uhoh, sorry and sleepy wav files.
+from src import brain # It will load core things in Jarvis' brain.
+from excp.exception import NotUnderstoodException # To pass exception handling.
+
+# Declaring Variables
 exit_flag = 0
+
+# Calling Required Functions
 tts_engine = google_tts.Google_TTS()
 jarvis_brain = brain.Brain()
 mic = microphone.Microphone()
 k = aiml.Kernel()
 
-
+# Defining Functions
 def check_sleep(words):
     if 'sleep' in words or 'hibernate' in words:
         commonsense.sleepy()
@@ -69,6 +75,8 @@ def wakeup():
             commonsense.uhoh()
 
 k.loadBrain('data/jarvis.brn')
+
+# Handling Exception
 try:
     f = open('data/jarvis.cred')
 except IOError:
